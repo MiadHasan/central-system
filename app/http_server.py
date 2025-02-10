@@ -22,7 +22,7 @@ def send_command():
     return jsonify({"status": "command_sent", "command": command}), 200
 
 @app.route('/clear-charging-profile', methods=['POST'])
-def clear_charging_profile():
+async def clear_charging_profile():
     """Clearing charging profile for a connector"""
     data = request.json
     print(data, len(chargers))
@@ -30,7 +30,7 @@ def clear_charging_profile():
     cp = chargers[0]
     #cp = ChargePoint('cid', chargers[0])
     print(cp)
-    res = asyncio.run(cp.clear_charging_profile(data["connector_id"]))
+    await cp.clear_charging_profile(data["connector_id"])
     return jsonify({"status": "ok", "message": "Request sent successfully"}), 200
 
 def create_http_server():

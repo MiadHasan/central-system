@@ -16,8 +16,7 @@ class ChargePoint(BaseChargePoint):
             charge_point_vendor,
             charge_point_model,
         )
-        self.clear_charging_profile(1)
-        return call_result.BootNotificationPayload(
+        return call_result.BootNotification(
             current_time=datetime.utcnow().isoformat(),
             interval=10,
             status=RegistrationStatus.accepted,
@@ -25,9 +24,9 @@ class ChargePoint(BaseChargePoint):
 
     async def clear_charging_profile(self, connector_id):
         """Clearing charging profile for a connector"""
-        print(connector_id, "clear clear clear clear clear clear")
-        res = await self.call(call.ClearChargingProfilePayload(
+        request = call.ClearChargingProfile(
                 connector_id=connector_id
-            ))
-        print(res)
-        return res
+            )
+        response = await self.call(request)
+        if response.status == RegistrationStatus.accepted:
+            logging.info("Clear charging profile successfull.")

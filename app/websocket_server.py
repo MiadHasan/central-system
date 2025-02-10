@@ -31,7 +31,6 @@ async def on_connect(websocket, path):
 
     logging.info("New ChargePoint connected: %s", charge_point_id)
 
-    #await charge_point.clear_charging_profile(2)
     await charge_point.start()
 
 async def start_server(host: str, port: int, protocols: list):
